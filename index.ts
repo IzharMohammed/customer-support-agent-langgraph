@@ -5,12 +5,12 @@ import { writeFileSync } from "node:fs";
 
 const graph = new StateGraph(EmailAgentState)
     .addNode("readEmail", readEmail)
-    .addNode("classifyIntent", classifyInten)
-    .addNode("searchDocumentation", searchDocumentation)
-    .addNode("draftResponse", draftResponse)
-    .addNode("humanReview", humanReview)
+    .addNode("classifyIntent", classifyInten, { ends: ["searchDocumentation", "humanReview", "draftResponse", "bugTracking"] })
+    .addNode("searchDocumentation", searchDocumentation, { ends: ["draftResponse"] })
+    .addNode("draftResponse", draftResponse, { ends: ["humanReview", "sendReply"] })
+    .addNode("humanReview", humanReview, { ends: ["sendReply", END] })
     .addNode("sendReply", sendReply)
-    .addNode("bugTracking", bugTracking)
+    .addNode("bugTracking", bugTracking, { ends: ["draftResponse"] })
     .addEdge(START, "readEmail")
     .addEdge("readEmail", "classifyIntent")
     .addEdge("sendReply", END)
@@ -40,7 +40,8 @@ async function main() {
     const config = { configurable: { thread_id: "customer_123" } };
     const result = await app.invoke(initialState, config);
     // The graph will pause at human_review
-    console.log(`Draft ready for review: ${result.responseText?.substring(0, 100)}...`);
+    console.log(`Draft ready for review: ${result.responseText}`);
+    console.log("=====================================================");
 
     const humanResponse = new Command({
         goto: "sendReply",
