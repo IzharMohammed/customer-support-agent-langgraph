@@ -1,0 +1,16 @@
+{
+  "name": "customer-support-agent-langgraph",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+      "dev": "npx tsx index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "typescript": "^5.9.3",
+    "zod": "^4.1.13"
+  }
+}
