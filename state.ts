@@ -1,14 +1,14 @@
 import * as z from "zod";
 
 // Define the structure for email classification
-const EmailClassificationSchema = z.object({
+export const EmailClassificationSchema = z.object({
     intent: z.enum(["question", "bug", "billing", "feature", "complex"]),
     urgency: z.enum(["low", "medium", "high", "critical"]),
     topic: z.string(),
     summary: z.string(),
 });
 
-const EmailAgentState = z.object({
+export const EmailAgentState = z.object({
     // Raw email data
     emailContent: z.string(),
     senderEmail: z.string(),
@@ -25,5 +25,5 @@ const EmailAgentState = z.object({
     responseText: z.string().optional(),
 })
 
-export type EmailAgentState = z.infer<typeof EmailAgentState>;
-export type EmailClassification = z.infer<typeof EmailClassificationSchema>;
+export type EmailAgentStateType = z.infer<typeof EmailAgentState>;
+export type EmailClassificationType = z.infer<typeof EmailClassificationSchema>;
