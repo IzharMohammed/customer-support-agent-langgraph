@@ -33,6 +33,9 @@ export async function classifyInten(state: EmailAgentStateType) {
 
     // Create structured LLM that returns EmailClassification object
     const structuredLLM = llm.withStructuredOutput(EmailClassificationSchema);
+    console.log("=================================================");
+    console.log("structuredLLM output:-", structuredLLM);
+    console.log("=================================================");
 
     // Format the prompt on-demand, not stored in state
     const classificationPrompt = `
@@ -45,6 +48,10 @@ Provide classification including intent, urgency, topic, and summary.
 `;
 
     const classification = await structuredLLM.invoke(classificationPrompt);
+    console.log("=================================================");
+    console.log("classification output:-", classification);
+    console.log("=================================================");
+
     // Determine next node based on classification
     let nextNode: "searchDocumentation" | "humanReview" | "draftResponse" | "bugTracking";
 
@@ -67,6 +74,7 @@ Provide classification including intent, urgency, topic, and summary.
 // Search and tracking nodes
 export async function searchDocumentation(state: EmailAgentStateType) {
     // Search knowledge base for relevant information
+    console.log("calling searchDocumentation");
 
     // Build search query from classification
     const classification = state.classification!;
@@ -98,6 +106,7 @@ export async function bugTracking(state: EmailAgentStateType) {
 
     // Create ticket in your bug tracking system
     const ticketId = "BUG-12345";  // Would be created via API
+    console.log("Assigning ticket");
 
     return new Command({
         update: { searchResults: [`Bug ticket ${ticketId} created`] },

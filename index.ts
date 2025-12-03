@@ -28,7 +28,6 @@ async function main() {
     const filePath = './customerSupportAgentState.png';
     writeFileSync(filePath, new Uint8Array(graphStateArrayBuffer));
 
-
     // Test with an urgent billing issue
     const initialState: EmailAgentStateType = {
         emailContent: "I was charged twice for my subscription! This is urgent!",
